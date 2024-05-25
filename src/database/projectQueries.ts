@@ -1,0 +1,1 @@
+export const insertProjectDetails = "Insert into PROJECT (project_name,pdfUrl,user_id) values($1,$2,$3);"
