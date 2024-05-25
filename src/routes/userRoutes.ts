@@ -9,9 +9,8 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
-router.post("/", createNewUser);
-router.put("/:id", updateUserById);
-router.delete("/:id", deleteUserById);
+router.get("/login", getAllUsers);
+
+router.post("/signup", createNewUser);
 
 export default router;

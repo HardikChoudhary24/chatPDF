@@ -1,4 +1,4 @@
-CREATE DATABASE chatPDF_DB;
+CREATE EXTENSION vector;
 
 CREATE TABLE USERS(
     user_id SERIAL PRIMARY KEY, 
@@ -6,16 +6,19 @@ CREATE TABLE USERS(
     email VARCHAR(255) UNIQUE,
     password TEXT
 );
+
 CREATE TABLE PROJECT(
     project_id SERIAL PRIMARY KEY, 
     project_name VARCHAR(255),
     pdfURL TEXT,
-    user_id INT REFERENCES USERS(user_id)
+    user_id INT REFERENCES USERS(user_id),
+    status VARCHAR(100)
 );
+
 CREATE TABLE EMBEDDINGS(
-    id SERIAL PRIMARY,
+    id SERIAL PRIMARY KEY,
     project_id INT REFERENCES PROJECT(project_id), 
-    text_embedding vector(1536),
-    text_content TEXT
+    text_embedding vector(768),
+    text_content VARCHAR(1500)
 );
 

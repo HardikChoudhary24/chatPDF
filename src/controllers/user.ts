@@ -1,3 +1,5 @@
+import pool from "../database/db";
+import { createNewUserQuery } from "../database/userQueries";
 import express from "express";
 
 
@@ -19,9 +21,9 @@ export const createNewUser = async (
   res: express.Response
 ) => {
   try {
-    const data = req.body;
-    const newUser = 3;
-    res.status(200).json({ message: "Success", user: newUser });
+    const {name,email,password} = req.body;
+    const newUser = await pool.query(createNewUserQuery,[name,email,password]);
+    res.status(200).json({ message: "Success", user: newUser.rows[0] });
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ message: "Error creating user" });

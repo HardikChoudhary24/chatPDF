@@ -24,14 +24,14 @@ export const createProject = async (
   res: express.Response
 ) => {
   try {
-    // const { pdfUrl, name } = req.body;
-    // console.log(pdfUrl,name);
+    const { pdfUrl, name } = req.body;
     const file = req.file;
-    console.log(file);
-    // const result = pool.query(insertProjectDetails, [name, pdfUrl, 1]);
-    addJobs(file.buffer);
+    const result = await pool.query(insertProjectDetails, [name, pdfUrl, 1,"creating"]);
+    const project_id = result.rows[0].project_id;
+    addJobs({ pdfFile: file.buffer, project_id });
     res.json({ success: true });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ details: error });
   }
 };
