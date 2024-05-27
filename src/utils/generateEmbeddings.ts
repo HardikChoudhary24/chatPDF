@@ -1,16 +1,13 @@
-import { ContentEmbedding, GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
+import { embeddingModel } from "./gnerativeAI";
 dotenv.config();
 
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-const model = genAI.getGenerativeModel({ model: "embedding-001" });
-
-const generateEmbeddings = async (textChunks: string[]) => {
+const generateEmbeddingsForDoc = async (textChunks: string[]) => {
   const chunk_embeddings = [];
   [];
   for (const chunk of textChunks) {
     try {
-      const result = await model.embedContent(chunk);
+      const result = await embeddingModel.embedContent(chunk);
       const embedding = result.embedding;
       chunk_embeddings.push({
         text_content: chunk,
@@ -23,4 +20,13 @@ const generateEmbeddings = async (textChunks: string[]) => {
 
   return chunk_embeddings;
 };
-export default generateEmbeddings;
+export const generateEmbedding = async (text: string) => {
+  try {
+    const result = await embeddingModel.embedContent(text);
+    const embedding = result.embedding;
+    return embedding;
+  } catch (error) {
+    console.error("error ",error);
+  }
+};
+export default generateEmbeddingsForDoc;

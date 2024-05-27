@@ -22,3 +22,11 @@ CREATE TABLE EMBEDDINGS(
     text_content VARCHAR(1500)
 );
 
+
+CREATE TABLE MESSAGE_HISTORY(
+    id SERIAL PRIMARY KEY,
+    project_id INT REFERENCES PROJECT(project_id), 
+    role VARCHAR(50),
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

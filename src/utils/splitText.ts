@@ -1,4 +1,7 @@
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import dotenv from "dotenv";
+import { queryModel } from "./gnerativeAI";
+dotenv.config();
 
 const splitRawText = (text: string) => {
   const textSplitter = new RecursiveCharacterTextSplitter({
@@ -9,5 +12,4 @@ const splitRawText = (text: string) => {
   return textSplitter.splitText(text);
 };
 
-export default splitRawText
-
+export default splitRawText;
