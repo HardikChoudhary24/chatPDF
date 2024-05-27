@@ -2,7 +2,6 @@ import express from "express";
 import { AuthenticatedRequest, JWTUser, UserInterface } from "types/types";
 import { decodeJWT } from "../utils/JWT";
 
-
 export const authenticateMiddleware = async (
   req: AuthenticatedRequest,
   res: express.Response,
@@ -10,14 +9,13 @@ export const authenticateMiddleware = async (
 ) => {
   try {
     const authHeader = req.headers.authorization;
-
     if (!authHeader) {
       return res.status(401).json({ details: "Authorization header missing" });
     }
 
     const token = authHeader.split(" ")[1];
 
-    if (!token) {
+    if (!token || token ==="undefined") {
       return res.status(401).json({ details: "Token missing" });
     }
 
