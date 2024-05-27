@@ -2,10 +2,16 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "target": "ES6",
     "baseUrl": "src",
     "outDir": "dist",
-    "sourceMap": true,
-    "noImplicitAny": true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*","src/types/types.d.ts"]
+  "include": ["src/**/*", "src/types/types.d.ts"]
 }

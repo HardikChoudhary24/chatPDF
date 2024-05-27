@@ -10,6 +10,10 @@ services:
       POSTGRES_DB: test_db
     ports:
       - "5432:5432"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -19,4 +23,40 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+
+  redis:
+    container_name: redis_container
+    image: redis:6.2
+    restart: always
+    ports:
+      - "6379:6379"
+
+  app:
+    container_name: express_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgres://root:root@db:5432/test_db
+      REDIS_URL: redis://redis:6379
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: db
+      DB_PORT: 5432
+      REDIS_PORT: 6379
+      REDIS_HOST: redis
+      DB_NAME: test_db
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:
+  init-data:
+
 

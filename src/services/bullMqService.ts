@@ -4,20 +4,19 @@ import splitRawText from "../utils/splitText";
 import pool from "../database/db";
 import { insertEmbeddings, insertMessage } from "../database/projectQueries";
 import generateEmbeddingsForDoc from "../utils/generateEmbeddings";
+import dotenv from "dotenv"
+import IORedis from "ioredis";
 
-const pdf_processing = new Queue("pdf-processing", {
-  connection: {
-    host: "127.0.0.1",
-    port: 6379,
-  },
-});
+dotenv.config()
 
-const add_in_messageHistory = new Queue("add_in_messageHistory", {
-  connection: {
-    host: "127.0.0.1",
-    port: 6379,
-  },
-});
+const connection = {
+  connection: new IORedis(process.env.REDIS_URL, {
+    maxRetriesPerRequest: null,
+  }),
+};
+const pdf_processing = new Queue("pdf-processing", connection);
+
+const add_in_messageHistory = new Queue("add_in_messageHistory", connection);
 
 export const addJobs = async ({
   project_id,
@@ -61,12 +60,7 @@ export const executeJobWorker = new Worker(
       );
     }
   },
-  {
-    connection: {
-      host: "127.0.0.1",
-      port: 6379,
-    },
-  }
+  connection
 );
 
 export const addInMessageHistory = async (
@@ -97,10 +91,5 @@ export const executeMessageWorker = new Worker(
       console.error(err);
     }
   },
-  {
-    connection: {
-      host: "127.0.0.1",
-      port: 6379,
-    },
-  }
+  connection
 );

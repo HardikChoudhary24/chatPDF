@@ -19,7 +19,7 @@ export const authenticateMiddleware = async (
       return res.status(401).json({ details: "Token missing" });
     }
 
-    const user = decodeJWT(token);
+    const user:JWTUser = decodeJWT(token);
 
     if (user) {
       req.user = user;
