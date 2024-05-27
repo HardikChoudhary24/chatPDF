@@ -29,7 +29,7 @@ cd chatPDF-server
 1. Copy the example environment file to a new file named `.env` and populate it with your actual keys and configuration values:
 
     ```bash
-    cp ..example.env .env
+    cp .example.env .env
     ```
 
 ### 3. Build and Run the Docker Containers
